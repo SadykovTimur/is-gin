@@ -21,6 +21,14 @@ class CaseApPage(Page):
     main = Component(id="mainApDelo")
     fix = Component(class_name="clear-fix")
     check_btn = Components(css="[class*='btn-info']")
+    loader = Component(css='[class*="spinner"]')
+
+    @property
+    def is_loader_hide(self) -> bool:
+        try:
+            return not self.loader.visible
+        except NoSuchElementException:
+            return True
 
     def wait_for_loading(self) -> None:
         def condition() -> bool:
@@ -30,6 +38,7 @@ class CaseApPage(Page):
                 assert self.title in 'Дела АП'
                 assert self.fix.visible
                 assert self.table.visible
+                assert self.is_loader_hide
 
                 return self.footer.visible
 
